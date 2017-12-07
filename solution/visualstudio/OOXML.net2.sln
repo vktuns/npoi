@@ -1,14 +1,18 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{41A0D04F-B087-4F46-86A9-FE12D300A9AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OOXML vs2010", "..\..\ooxml\NPOI.OOXML.net2.csproj", "{6BEED965-B9A0-4FFA-B96D-0F380A97331A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NPOI.OOXML.net2", "..\..\ooxml\NPOI.OOXML.net2.csproj", "{6BEED965-B9A0-4FFA-B96D-0F380A97331A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenXml4Net vs2010", "..\..\ooxml\openxml4Net\NPOI.OpenXml4Net.net2.csproj", "{C9F265B7-ECE3-4755-B0B1-79536575C2A9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NPOI.OpenXml4Net.net2", "..\..\ooxml\openxml4Net\NPOI.OpenXml4Net.net2.csproj", "{C9F265B7-ECE3-4755-B0B1-79536575C2A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenXmlFormats vs2010", "..\..\ooxml\OpenXmlFormats\NPOI.OpenXmlFormats.net2.csproj", "{A6874784-2875-4F40-9E8F-8385A640F5D6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NPOI.OpenXmlFormats.net2", "..\..\ooxml\OpenXmlFormats\NPOI.OpenXmlFormats.net2.csproj", "{A6874784-2875-4F40-9E8F-8385A640F5D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "main vs10", "..\..\main\NPOI.net2.csproj", "{10FA8538-157A-4380-A4F6-8E2C3EE92CAE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NPOI.net2", "..\..\main\NPOI.net2.csproj", "{10FA8538-157A-4380-A4F6-8E2C3EE92CAE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NPOI.Web", "NPOI.Web\NPOI.Web.csproj", "{C12FDDA0-9829-4484-8FED-487AD1FB0BD8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -50,6 +54,14 @@ Global
 		{10FA8538-157A-4380-A4F6-8E2C3EE92CAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{10FA8538-157A-4380-A4F6-8E2C3EE92CAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{10FA8538-157A-4380-A4F6-8E2C3EE92CAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C12FDDA0-9829-4484-8FED-487AD1FB0BD8}..net 2 Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C12FDDA0-9829-4484-8FED-487AD1FB0BD8}..net 2 Release|Any CPU.Build.0 = Release|Any CPU
+		{C12FDDA0-9829-4484-8FED-487AD1FB0BD8}..net 4 Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C12FDDA0-9829-4484-8FED-487AD1FB0BD8}..net 4 Release|Any CPU.Build.0 = Release|Any CPU
+		{C12FDDA0-9829-4484-8FED-487AD1FB0BD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C12FDDA0-9829-4484-8FED-487AD1FB0BD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C12FDDA0-9829-4484-8FED-487AD1FB0BD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C12FDDA0-9829-4484-8FED-487AD1FB0BD8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

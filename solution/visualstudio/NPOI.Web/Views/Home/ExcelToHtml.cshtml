@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewBag.Title = "ExcelToHtml";
+    Layout = null;
+}
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/vkajax.js"></script>
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<div class="col-lg-12">
+    <form id="uploadFile" action="/Home/GetExcel" method="post" enctype="multipart/form-data" onsubmit="return iframeCallback(this, callback)" style="display:inline-block;vertical-align:middle;margin-top:3px">
+        <div class="file-box">
+            <input type="hidden" id="fileName" class="form-control" />
+            <a href="javascript:void(0);" class="btn btn-default btn-sm">
+                <input type="file" class="file-upload" name="upload" accept="application/vnd.ms-excel" />导入
+            </a>
+        </div>
+    </form>
+</div>
+<div class="col-lg-12" style="height:500px;">
+    <div id="tt">
+
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("input[name='upload']").change(function () {
+            var file = $(this).val();
+            var texts = $(".file-name");
+            if (/\.(xls|xlsx)$/i.test(file)) {
+                texts.val(file)
+                $("#uploadFile").submit();
+            } else {
+                texts.val("11");
+            }
+        })
+    })
+
+    function callback(msg) {
+        console.log(msg);
+        $("#tt").html(msg);
+    }
+
+</script>

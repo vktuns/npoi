@@ -877,6 +877,7 @@ namespace NPOI.SS.UserModel
             }
 
             CellType cellType = cell.CellType;
+          
             if (evaluator != null && cellType == CellType.Formula)
             {
                 if (evaluator == null)
@@ -892,7 +893,24 @@ namespace NPOI.SS.UserModel
                     return cell.CellFormula;
 
                 case CellType.Numeric:
-
+                    var a = cell.CellStyle.DataFormat;
+                    if(a>0 && currentCulture.IetfLanguageTag == "zh-CN")
+                    {
+                        var temp = "";
+                        switch (a)
+                        {
+                            case 57:
+                                temp = cell.DateCellValue.ToString("yyyy年M月");
+                                break;
+                            case 58:
+                                temp = cell.DateCellValue.ToString("M月d日");
+                                break;
+                            default:
+                                temp= GetFormattedDateString(cell); 
+                                break;
+                        }
+                        return temp;
+                    }
                     if (DateUtil.IsCellDateFormatted(cell))
                     {
                         return GetFormattedDateString(cell);

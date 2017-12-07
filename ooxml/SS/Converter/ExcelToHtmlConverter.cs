@@ -113,6 +113,7 @@ namespace NPOI.SS.Converter
             get { return useDivsToSpan; }
             set { useDivsToSpan = value; }
         }
+
         public static XmlDocument Process(string excelFile)
         {
             IWorkbook workbook = WorkbookFactory.Create(excelFile);
@@ -244,9 +245,9 @@ namespace NPOI.SS.Converter
                         htmlDocumentFacade.AddDescription(summaryInformation.Comments);
                 }
             }
-            else if(workbook is NPOI.XSSF.UserModel.XSSFWorkbook)
+            else if (workbook is NPOI.XSSF.UserModel.XSSFWorkbook)
             {
-                POIXMLProperties props=((NPOI.XSSF.UserModel.XSSFWorkbook)workbook).GetProperties();
+                POIXMLProperties props = ((NPOI.XSSF.UserModel.XSSFWorkbook)workbook).GetProperties();
                 if (!string.IsNullOrEmpty(props.CoreProperties.Title))
                 {
                     htmlDocumentFacade.Title = props.CoreProperties.Title;
@@ -510,11 +511,12 @@ namespace NPOI.SS.Converter
                             ICellStyle style = cellStyle;
                             if (style == null)
                             {
-                                value = cell.NumericCellValue.ToString();
+                                value = DateUtil.IsCellDateFormatted(cell) ? cell.DateCellValue.ToString() : cell.NumericCellValue.ToString();
                             }
                             else
                             {
                                 value = (_formatter.FormatRawCellContents(cell.NumericCellValue, style.DataFormat, style.GetDataFormatString()));
+
                             }
                             break;
                         case CellType.Boolean:
@@ -631,7 +633,7 @@ namespace NPOI.SS.Converter
         {
             short cellStyleKey = cellStyle.Index;
 
-            if(excelStyleToClass.ContainsKey(cellStyleKey))
+            if (excelStyleToClass.ContainsKey(cellStyleKey))
                 return excelStyleToClass[cellStyleKey];
 
             String cssStyle = BuildStyle(workbook, cellStyle);
@@ -648,7 +650,9 @@ namespace NPOI.SS.Converter
             if (workbook is HSSFWorkbook)
             {
                 HSSFPalette palette = ((HSSFWorkbook)workbook).GetCustomPalette();
-                style.Append("white-space: pre-wrap; ");
+                //style.Append("white-space: pre-wrap; ");   
+                style.Append("white-space: nowrap; ");
+
                 ExcelToHtmlUtils.AppendAlign(style, cellStyle.Alignment);
 
                 if (cellStyle.FillPattern == FillPattern.NoFill)
@@ -672,7 +676,8 @@ namespace NPOI.SS.Converter
             }
             else
             {
-                style.Append("white-space: pre-wrap; ");
+                // style.Append("white-space: pre-wrap; ");
+                style.Append("white-space: nowrap; ");
                 ExcelToHtmlUtils.AppendAlign(style, cellStyle.Alignment);
                 StylesTable st = ((XSSFWorkbook)workbook).GetStylesSource();
                 ThemesTable tt = st.GetTheme();
@@ -683,19 +688,20 @@ namespace NPOI.SS.Converter
                 else if (cellStyle.FillPattern == FillPattern.SolidForeground)
                 {
                     //cellStyle
-                    IndexedColors clr=IndexedColors.ValueOf(cellStyle.FillForegroundColor);
-                    string hexstring=null;
-                    if(clr!=null)
+                    IndexedColors clr = IndexedColors.ValueOf(cellStyle.FillForegroundColor);
+                    string hexstring = null;
+                    if (clr != null)
                     {
-                        hexstring=clr.HexString;
-                    }else
+                        hexstring = clr.HexString;
+                    }
+                    else
                     {
                         XSSFColor foregroundColor = (XSSFColor)cellStyle.FillForegroundColorColor;
                         if (foregroundColor != null)
-                        hexstring = ExcelToHtmlUtils.GetColor(foregroundColor);
+                            hexstring = ExcelToHtmlUtils.GetColor(foregroundColor);
                     }
                     if (hexstring != null)
-                        style.AppendFormat("background-color:{0}; ",hexstring);
+                        style.AppendFormat("background-color:{0}; ", hexstring);
                 }
                 else
                 {
@@ -708,7 +714,7 @@ namespace NPOI.SS.Converter
                     else
                     {
                         XSSFColor backgroundColor = (XSSFColor)cellStyle.FillBackgroundColorColor;
-                        if(backgroundColor!=null)
+                        if (backgroundColor != null)
                             hexstring = ExcelToHtmlUtils.GetColor(backgroundColor);
                     }
                     if (hexstring != null)
@@ -720,7 +726,7 @@ namespace NPOI.SS.Converter
             BuildStyle_Border(workbook, style, "top", cellStyle.BorderTop, cellStyle.TopBorderColor);
             BuildStyle_Border(workbook, style, "right", cellStyle.BorderRight, cellStyle.RightBorderColor);
             BuildStyle_Border(workbook, style, "bottom", cellStyle.BorderBottom, cellStyle.BottomBorderColor);
-            BuildStyle_Border(workbook, style, "left", cellStyle.BorderLeft, cellStyle.LeftBorderColor);
+            BuildStyle_Border(workbook, style, "left", cellStyle.BorderLeft,  cellStyle.LeftBorderColor);
 
             IFont font = cellStyle.GetFont(workbook);
             BuildStyle_Font(workbook, style, font);
@@ -733,7 +739,7 @@ namespace NPOI.SS.Converter
         {
             if (xlsBorder == BorderStyle.None)
                 return;
-
+            var bColor = borderColor == 0 ? HSSFColor.Black.Index : borderColor;
             StringBuilder borderStyle = new StringBuilder();
             borderStyle.Append(ExcelToHtmlUtils.GetBorderWidth(xlsBorder));
             borderStyle.Append(' ');
@@ -741,24 +747,24 @@ namespace NPOI.SS.Converter
 
             if (workbook is HSSFWorkbook)
             {
-                HSSFColor color = ((HSSFWorkbook)workbook).GetCustomPalette().GetColor(borderColor);
+                HSSFColor color = ((HSSFWorkbook)workbook).GetCustomPalette().GetColor(bColor);
                 if (color != null)
                 {
                     borderStyle.Append(' ');
                     borderStyle.Append(ExcelToHtmlUtils.GetColor(color));
                 }
             }
-            else 
+            else
             {
-                IndexedColors clr = IndexedColors.ValueOf(borderColor);
+                IndexedColors clr = IndexedColors.ValueOf(bColor);
                 if (clr != null)
                 {
-                   borderStyle.Append(' ');
-                   borderStyle.Append(clr.HexString);
+                    borderStyle.Append(' ');
+                    borderStyle.Append(clr.HexString);
                 }
                 else
                 {
-                    XSSFColor color = ((XSSFWorkbook)workbook).GetStylesSource().GetTheme().GetThemeColor(borderColor);
+                    XSSFColor color = ((XSSFWorkbook)workbook).GetStylesSource().GetTheme().GetThemeColor(bColor);
                     if (color != null)
                     {
                         borderStyle.Append(' ');
@@ -766,7 +772,7 @@ namespace NPOI.SS.Converter
                     }
                 }
             }
-            style.AppendFormat("border-{0}: {1}; ",type, borderStyle);
+            style.AppendFormat("border-{0}: {1}; ", type, borderStyle);
         }
 
         void BuildStyle_Font(IWorkbook workbook, StringBuilder style,
@@ -787,7 +793,7 @@ namespace NPOI.SS.Converter
             {
                 HSSFColor fontColor = ((HSSFWorkbook)workbook).GetCustomPalette().GetColor(font.Color);
                 if (fontColor != null)
-                    style.AppendFormat("color:{0}; " ,ExcelToHtmlUtils.GetColor(fontColor) );
+                    style.AppendFormat("color:{0}; ", ExcelToHtmlUtils.GetColor(fontColor));
             }
             else
             {

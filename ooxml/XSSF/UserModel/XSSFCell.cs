@@ -845,6 +845,7 @@ namespace NPOI.XSSF.UserModel
                     if (DateUtil.IsCellDateFormatted(this))
                     {
                         FormatBase sdf = new SimpleDateFormat("dd-MMM-yyyy");
+                        var a = sdf.Format(DateCellValue, CultureInfo.CurrentCulture);
                         return sdf.Format(DateCellValue, CultureInfo.CurrentCulture);
                     }
                     return NumericCellValue.ToString();
