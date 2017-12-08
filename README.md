@@ -11,14 +11,13 @@ Function for Chinese
    1. DateFormate For Chinese Date
    2. Improve Border Style
 
-If I have some terrible methods to these  please let me know! ^_^
+If I have some terrible methods to do these  please let me know! ^_^
 ----
 
 Advantage of NPOI
 =================
 a. It's totally free to use<br />
 b. Cover most features of Excel (cell style, data format, formula and so on)<br />
-c. Professional support service (even 24*7) from NPOI team (not free)<br />
 d. Support xls, xlsx, docx.<br />
 e. Designed to be interface-oriented (take a look at NPOI.SS namespace)<br />
 f. Support not only export but also import<br />

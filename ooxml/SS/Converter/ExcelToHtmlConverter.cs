@@ -509,9 +509,13 @@ namespace NPOI.SS.Converter
                             break;
                         case CellType.Numeric:
                             ICellStyle style = cellStyle;
+                            //将公式重新计算防止为0的情况
+                            IWorkbook workbook = cell.Row.Sheet.Workbook as IWorkbook;
+                            HSSFFormulaEvaluator e = new HSSFFormulaEvaluator(workbook);
+                            cell = e.EvaluateInCell(cell);
                             if (style == null)
                             {
-                                value = DateUtil.IsCellDateFormatted(cell) ? cell.DateCellValue.ToString() : cell.NumericCellValue.ToString();
+                                value = cell.NumericCellValue.ToString();
                             }
                             else
                             {
