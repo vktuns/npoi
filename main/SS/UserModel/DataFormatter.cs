@@ -360,7 +360,7 @@ namespace NPOI.SS.UserModel
                     //take the first match
                     if (fractionMatcher.Success)
                     {
-                        String wholePart = (fractionMatcher.Groups[1] == null||!fractionMatcher.Groups[1].Success) ? "" : defaultFractionWholePartFormat;
+                        String wholePart = (fractionMatcher.Groups[1] == null || !fractionMatcher.Groups[1].Success) ? "" : defaultFractionWholePartFormat;
                         return new FractionFormat(wholePart, fractionMatcher.Groups[3].Value);
                     }
                 }
@@ -820,10 +820,12 @@ namespace NPOI.SS.UserModel
             // original method.
             String result;
             String textValue = NumberToTextConverter.ToText(value);
-            if (textValue.IndexOf('E') > -1) {
+            if (textValue.IndexOf('E') > -1)
+            {
                 result = numberFormat.Format(value);
             }
-            else {
+            else
+            {
                 result = numberFormat.Format(textValue);
             }
             // Complete scientific notation by adding the missing +.
@@ -877,7 +879,7 @@ namespace NPOI.SS.UserModel
             }
 
             CellType cellType = cell.CellType;
-          
+
             if (evaluator != null && cellType == CellType.Formula)
             {
                 if (evaluator == null)
@@ -894,20 +896,15 @@ namespace NPOI.SS.UserModel
 
                 case CellType.Numeric:
                     var a = cell.CellStyle.DataFormat;
-                    if(a>0 && currentCulture.IetfLanguageTag == "zh-CN")
+                    if (a > 0 && currentCulture.IetfLanguageTag == "zh-CN")
                     {
                         var temp = "";
                         switch (a)
                         {
                             case 57:
-                                temp = cell.DateCellValue.ToString("yyyy年M月");
-                                break;
+                                return cell.DateCellValue.ToString("yyyy年M月");
                             case 58:
-                                temp = cell.DateCellValue.ToString("M月d日");
-                                break;
-                            default:
-                                temp= GetFormattedDateString(cell); 
-                                break;
+                                return cell.DateCellValue.ToString("M月d日");
                         }
                         return temp;
                     }
