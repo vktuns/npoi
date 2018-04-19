@@ -511,8 +511,17 @@ namespace NPOI.SS.Converter
                             ICellStyle style = cellStyle;
                             //将公式重新计算防止为0的情况
                             IWorkbook workbook = cell.Row.Sheet.Workbook as IWorkbook;
-                            HSSFFormulaEvaluator e = new HSSFFormulaEvaluator(workbook);
-                            cell = e.EvaluateInCell(cell);
+                            if(workbook is HSSFWorkbook)
+                            {
+                                HSSFFormulaEvaluator e = new HSSFFormulaEvaluator(workbook);
+                                cell = e.EvaluateInCell(cell);
+                            }
+                            else
+                            {
+                                XSSFFormulaEvaluator e = new XSSFFormulaEvaluator(workbook);
+                                cell = e.EvaluateInCell(cell);
+                            }
+                            
                             if (style == null)
                             {
                                 value = cell.NumericCellValue.ToString();
